@@ -192,10 +192,7 @@
         <parameter>ROLE_USER</parameter>
       </parameter>
       <parameter key="ROLE_CAISSIER" type="collection">
-        <parameter>ROLE_USER</parameter>
-      </parameter>
-      <parameter key="ROLE_CLIENT" type="collection">
-        <parameter>ROLE_USER</parameter>
+        <parameter>ROLE_CLIENT</parameter>
       </parameter>
     </parameter>
     <parameter key="security.access.denied_url">null</parameter>
@@ -300,7 +297,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.JnyYWMN"/>
+      <argument type="service" id=".service_locator.p68VRpT"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -1547,7 +1544,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.JnyYWMN"/>
+      <argument type="service" id=".service_locator.p68VRpT"/>
     </service>
     <service id="routing.resolver" class="Symfony\Component\Config\Loader\LoaderResolver">
       <call method="addLoader">
@@ -3438,13 +3435,6 @@
     </service>
     <service id="security.access_map" class="Symfony\Component\Security\Http\AccessMap">
       <call method="add">
-        <argument type="service" id=".security.request_matcher.ebLFbA0"/>
-        <argument type="collection">
-          <argument>ROLE_GERANT</argument>
-        </argument>
-        <argument>null</argument>
-      </call>
-      <call method="add">
         <argument type="service" id=".security.request_matcher.amsuyHE"/>
         <argument type="collection">
           <argument>ROLE_CLIENT</argument>
@@ -3452,7 +3442,21 @@
         <argument>null</argument>
       </call>
       <call method="add">
+        <argument type="service" id=".security.request_matcher.ebLFbA0"/>
+        <argument type="collection">
+          <argument>ROLE_GERANT</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
         <argument type="service" id=".security.request_matcher.RfQw8tR"/>
+        <argument type="collection">
+          <argument>ROLE_CLIENT</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.0cj9jyR"/>
         <argument type="collection">
           <argument>ROLE_CAISSIER</argument>
         </argument>
@@ -3971,14 +3975,6 @@
         <argument key="security.firewall.map.context.main" type="service_closure" id="security.firewall.map.context.main"/>
       </argument>
     </service>
-    <service id=".security.request_matcher.L4nxQNA" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
-      <argument>^/prd</argument>
-    </service>
-    <service id=".security.request_matcher.ebLFbA0" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
-      <argument type="collection">
-        <argument type="service" id=".security.request_matcher.L4nxQNA"/>
-      </argument>
-    </service>
     <service id=".security.request_matcher.iWMEQ5L" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
       <argument>^/ticket/show</argument>
     </service>
@@ -3987,12 +3983,28 @@
         <argument type="service" id=".security.request_matcher.iWMEQ5L"/>
       </argument>
     </service>
+    <service id=".security.request_matcher.L4nxQNA" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/prd</argument>
+    </service>
+    <service id=".security.request_matcher.ebLFbA0" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+      <argument type="collection">
+        <argument type="service" id=".security.request_matcher.L4nxQNA"/>
+      </argument>
+    </service>
     <service id=".security.request_matcher.mzR9_.A" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
       <argument>^/ticket</argument>
     </service>
     <service id=".security.request_matcher.RfQw8tR" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
       <argument type="collection">
         <argument type="service" id=".security.request_matcher.mzR9_.A"/>
+      </argument>
+    </service>
+    <service id=".security.request_matcher.Lc6sIVY" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/ticket/pay</argument>
+    </service>
+    <service id=".security.request_matcher.0cj9jyR" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+      <argument type="collection">
+        <argument type="service" id=".security.request_matcher.Lc6sIVY"/>
       </argument>
     </service>
     <service id="security.command.user_password_hash" class="Symfony\Component\PasswordHasher\Command\UserPasswordHashCommand">
@@ -4717,7 +4729,7 @@
         <argument key="ticket" type="service_closure" id=".errored..service_locator.82D.IAg.App\Entity\Ticket"/>
       </argument>
     </service>
-    <service id=".service_locator.JnyYWMN" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.p68VRpT" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\PrdController::delete" type="service_closure" id=".service_locator.uf73EwL"/>
@@ -4727,6 +4739,7 @@
         <argument key="App\Controller\PrdController::show" type="service_closure" id=".service_locator.4l0YB7W"/>
         <argument key="App\Controller\RegistrationController::register" type="service_closure" id=".service_locator.e_4zbH4"/>
         <argument key="App\Controller\SecurityController::login" type="service_closure" id=".service_locator.rSTd.nA"/>
+        <argument key="App\Controller\TicketController::chooseTicket" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\TicketController::delete" type="service_closure" id=".service_locator.82D.IAg"/>
         <argument key="App\Controller\TicketController::edit" type="service_closure" id=".service_locator.82D.IAg"/>
         <argument key="App\Controller\TicketController::index" type="service_closure" id=".service_locator.2JKuakw"/>
@@ -4743,6 +4756,7 @@
         <argument key="App\Controller\PrdController:show" type="service_closure" id=".service_locator.4l0YB7W"/>
         <argument key="App\Controller\RegistrationController:register" type="service_closure" id=".service_locator.e_4zbH4"/>
         <argument key="App\Controller\SecurityController:login" type="service_closure" id=".service_locator.rSTd.nA"/>
+        <argument key="App\Controller\TicketController:chooseTicket" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\TicketController:delete" type="service_closure" id=".service_locator.82D.IAg"/>
         <argument key="App\Controller\TicketController:edit" type="service_closure" id=".service_locator.82D.IAg"/>
         <argument key="App\Controller\TicketController:index" type="service_closure" id=".service_locator.2JKuakw"/>
@@ -6051,7 +6065,7 @@
     <service id="Symfony\Component\Security\Core\User\UserCheckerInterface" alias="security.user_checker"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.w7.f4fT" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.JnyYWMN"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.p68VRpT"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="Psr\Log\LoggerInterface" alias="logger"/>
@@ -6059,7 +6073,7 @@
     <service id=".service_locator.gXxOr5w" alias=".service_locator.uf73EwL"/>
     <service id=".service_locator.V6D1oJY" alias=".service_locator.e_4zbH4"/>
     <service id=".service_locator.NjY_wq9" alias=".service_locator.82D.IAg"/>
-    <service id=".service_locator.XpveQ1A" alias=".service_locator.JnyYWMN"/>
+    <service id=".service_locator.kK5d0yS" alias=".service_locator.p68VRpT"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
     <service id=".service_locator.wN1AFef" alias=".service_locator.Tc3JdvN"/>
     <service id=".service_locator.LMuqDDe" alias=".service_locator.VHsrTPK"/>

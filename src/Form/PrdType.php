@@ -20,6 +20,7 @@ class PrdType extends AbstractType
                 'class' => Ticket::class,
                 'choice_label' => 'id',
                 'multiple' => true,
+                'required' => false,
             ])
         ;
     }

@@ -114,12 +114,50 @@ class __TwigTemplate_a3d357f009e91003f2d1b73d5e622d52 extends Template
             yield Twig\Extension\EscaperExtension::escape($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_ticket_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["ticket"], "id", [], "any", false, false, false, 25)]), "html", null, true);
             yield "\">edit</a>
                 </td>
+                <td>
+                    <a href=\"";
+            // line 28
+            yield Twig\Extension\EscaperExtension::escape($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_ticket_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["ticket"], "id", [], "any", false, false, false, 28)]), "html", null, true);
+            yield "\">show</a>
+                    ";
+            // line 29
+            if (CoreExtension::inFilter("ROLE_ADMIN", CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 29, $this->source); })()), "user", [], "any", false, false, false, 29), "roles", [], "any", false, false, false, 29))) {
+                yield "<a href=\"";
+                yield Twig\Extension\EscaperExtension::escape($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_ticket_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["ticket"], "id", [], "any", false, false, false, 29)]), "html", null, true);
+                yield "\">edit</a>";
+            }
+            // line 30
+            yield "                </td>
+                <td>
+                    ";
+            // line 32
+            if (CoreExtension::inFilter("ROLE_CAISSIER", CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 32, $this->source); })()), "user", [], "any", false, false, false, 32), "roles", [], "any", false, false, false, 32))) {
+                // line 33
+                yield "                    ";
+                if (CoreExtension::getAttribute($this->env, $this->source, $context["ticket"], "valide", [], "any", false, false, false, 33)) {
+                    // line 34
+                    yield "                    <button class=\"bg-muted text-white rounded button \" disabled>
+                        pay
+                    </button>
+                    ";
+                } else {
+                    // line 38
+                    yield "                        <a class=\"bg-primary text-white rounded button p-2\" href=";
+                    yield Twig\Extension\EscaperExtension::escape($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("choose_ticket", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["ticket"], "id", [], "any", false, false, false, 38)]), "html", null, true);
+                    yield ">pay</a>
+                    ";
+                }
+                // line 40
+                yield "                    ";
+            }
+            // line 41
+            yield "                </td>
             </tr>
         ";
             $context['_iterated'] = true;
         }
         if (!$context['_iterated']) {
-            // line 29
+            // line 44
             yield "            <tr>
                 <td colspan=\"4\">no records found</td>
             </tr>
@@ -128,12 +166,12 @@ class __TwigTemplate_a3d357f009e91003f2d1b73d5e622d52 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['ticket'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 33
+        // line 48
         yield "        </tbody>
     </table>
 
     <a href=\"";
-        // line 36
+        // line 51
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_ticket_new");
         yield "\">Create new</a>
 ";
@@ -164,7 +202,7 @@ class __TwigTemplate_a3d357f009e91003f2d1b73d5e622d52 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  137 => 36,  132 => 33,  123 => 29,  114 => 25,  110 => 24,  105 => 22,  101 => 21,  97 => 20,  94 => 19,  89 => 18,  75 => 6,  68 => 5,  54 => 3,  37 => 1,);
+        return array (  175 => 51,  170 => 48,  161 => 44,  154 => 41,  151 => 40,  145 => 38,  139 => 34,  136 => 33,  134 => 32,  130 => 30,  124 => 29,  120 => 28,  114 => 25,  110 => 24,  105 => 22,  101 => 21,  97 => 20,  94 => 19,  89 => 18,  75 => 6,  68 => 5,  54 => 3,  37 => 1,);
     }
 
     public function getSourceContext()
@@ -194,6 +232,21 @@ class __TwigTemplate_a3d357f009e91003f2d1b73d5e622d52 extends Template
                 <td>
                     <a href=\"{{ path('app_ticket_show', {'id': ticket.id}) }}\">show</a>
                     <a href=\"{{ path('app_ticket_edit', {'id': ticket.id}) }}\">edit</a>
+                </td>
+                <td>
+                    <a href=\"{{ path('app_ticket_show', {'id': ticket.id}) }}\">show</a>
+                    {% if 'ROLE_ADMIN' in app.user.roles  %}<a href=\"{{ path('app_ticket_edit', {'id': ticket.id}) }}\">edit</a>{% endif %}
+                </td>
+                <td>
+                    {% if 'ROLE_CAISSIER' in app.user.roles  %}
+                    {% if ticket.valide %}
+                    <button class=\"bg-muted text-white rounded button \" disabled>
+                        pay
+                    </button>
+                    {% else %}
+                        <a class=\"bg-primary text-white rounded button p-2\" href={{ path('choose_ticket', {'id': ticket.id}) }}>pay</a>
+                    {% endif %}
+                    {% endif %}
                 </td>
             </tr>
         {% else %}

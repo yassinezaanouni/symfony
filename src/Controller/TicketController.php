@@ -14,6 +14,20 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/ticket')]
 class TicketController extends AbstractController
 {
+    #[Route('/{id}/pay', name:'choose_ticket', methods: ["POST","GET"])]
+    public function chooseTicket($id,EntityManagerInterface $entityManager): Response
+    {
+        $ticket = $entityManager->getRepository(Ticket::class)->find($id);
+
+        if (!$ticket) {
+            return new Response('Ticket not found', Response::HTTP_NOT_FOUND);
+        }
+
+        $ticket->setValide(true);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+    }
     #[Route('/show', name: 'app_ticket_index', methods: ['GET'])]
     public function index(TicketRepository $ticketRepository): Response
     {
@@ -23,24 +37,41 @@ class TicketController extends AbstractController
     }
 
     #[Route('/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $ticket = new Ticket();
-        $form = $this->createForm(TicketType::class, $ticket);
-        $form->handleRequest($request);
+public function new(Request $request, EntityManagerInterface $entityManager): Response
+{
+    $ticket = new Ticket();
+    $form = $this->createForm(TicketType::class, $ticket);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($ticket);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+    // Calculate total based on form submission
+    $total = 0;
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Get the selected products from the form submission
+        $selectedPrds = $ticket->getPrds();
+        
+        // Calculate the total based on the selected products
+        foreach ($selectedPrds as $prd) {
+            // Assuming each product has a price property, adjust this according to your entity structure
+            $total += $prd->getPrix();
         }
+        
+        // Set the total to the ticket entity
+        $ticket->setTotal($total);
 
-        return $this->render('ticket/new.html.twig', [
-            'ticket' => $ticket,
-            'form' => $form,
-        ]);
+        // Persist and flush the ticket entity
+        $entityManager->persist($ticket);
+        $entityManager->flush();
+
+        // Redirect to the index page
+        return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    return $this->render('ticket/new.html.twig', [
+        'ticket' => $ticket,
+        'form' => $form->createView(),
+    ]);
+}
+
 
     #[Route('/{id}', name: 'app_ticket_show', methods: ['GET'])]
     public function show(Ticket $ticket): Response
