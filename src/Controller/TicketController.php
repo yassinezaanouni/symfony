@@ -90,11 +90,27 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
         $form = $this->createForm(TicketType::class, $ticket);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+        $total = 0;
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Get the selected products from the form submission
+        $selectedPrds = $ticket->getPrds();
+        
+        // Calculate the total based on the selected products
+        foreach ($selectedPrds as $prd) {
+            // Assuming each product has a price property, adjust this according to your entity structure
+            $total += $prd->getPrix();
         }
+        
+        // Set the total to the ticket entity
+        $ticket->setTotal($total);
+        $ticket->setValide(false);
+        // Persist and flush the ticket entity
+        $entityManager->persist($ticket);
+        $entityManager->flush();
+
+        // Redirect to the index page
+        return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+    }
 
         return $this->render('ticket/edit.html.twig', [
             'ticket' => $ticket,
