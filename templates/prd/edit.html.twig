@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Prd{% endblock %}
+
+{% block body %}
+    <h1>Edit Prd</h1>
+
+    {{ include('prd/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_prd_index') }}">back to list</a>
+
+    {{ include('prd/_delete_form.html.twig') }}
+{% endblock %}

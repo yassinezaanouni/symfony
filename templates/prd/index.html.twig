@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Prd index{% endblock %}
+
+{% block body %}
+    <h1>Prd index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Prix</th>
+                <th>Lib</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for prd in prds %}
+            <tr>
+                <td>{{ prd.id }}</td>
+                <td>{{ prd.prix }}</td>
+                <td>{{ prd.lib }}</td>
+                <td>
+                    <a href="{{ path('app_prd_show', {'id': prd.id}) }}">show</a>
+                    <a href="{{ path('app_prd_edit', {'id': prd.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_prd_new') }}">Create new</a>
+{% endblock %}
