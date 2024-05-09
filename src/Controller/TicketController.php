@@ -11,10 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 #[Route('/ticket')]
 class TicketController extends AbstractController
 {
-    #[Route('/{id}/pay', name:'choose_ticket', methods: ["POST","GET"])]
+    #[Route('/pay/{id}', name:'choose_ticket', methods: ["POST","GET"])]
     public function chooseTicket($id,EntityManagerInterface $entityManager): Response
     {
         $ticket = $entityManager->getRepository(Ticket::class)->find($id);
