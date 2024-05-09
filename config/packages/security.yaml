@@ -35,10 +35,11 @@ security:
     # Note: Only the *first* access control that matches will be used
     role_hierarchy:
         ROLE_GERANT: ROLE_USER
-        ROLE_CAISSIER: ROLE_CLIENT
+        ROLE_CAISSIER: ROLE_INT
+        ROLE_CLIENT: ROLE_INT
 
     access_control:
-        - { path: ^/ticket/show, roles: ROLE_CLIENT }
+        - { path: ^/ticket/show, roles: ROLE_INT }
         - { path: ^/prd, roles: ROLE_GERANT }
         - { path: ^/ticket, roles: ROLE_CLIENT }
         - { path: ^/ticket/pay, roles: ROLE_CAISSIER }

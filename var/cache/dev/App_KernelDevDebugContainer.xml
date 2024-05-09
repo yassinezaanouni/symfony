@@ -192,7 +192,10 @@
         <parameter>ROLE_USER</parameter>
       </parameter>
       <parameter key="ROLE_CAISSIER" type="collection">
-        <parameter>ROLE_CLIENT</parameter>
+        <parameter>ROLE_INT</parameter>
+      </parameter>
+      <parameter key="ROLE_CLIENT" type="collection">
+        <parameter>ROLE_INT</parameter>
       </parameter>
     </parameter>
     <parameter key="security.access.denied_url">null</parameter>
@@ -3437,7 +3440,7 @@
       <call method="add">
         <argument type="service" id=".security.request_matcher.amsuyHE"/>
         <argument type="collection">
-          <argument>ROLE_CLIENT</argument>
+          <argument>ROLE_INT</argument>
         </argument>
         <argument>null</argument>
       </call>

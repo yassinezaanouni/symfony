@@ -57,7 +57,7 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
         
         // Set the total to the ticket entity
         $ticket->setTotal($total);
-
+        $ticket->setValide(false);
         // Persist and flush the ticket entity
         $entityManager->persist($ticket);
         $entityManager->flush();

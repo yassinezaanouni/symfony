@@ -17,9 +17,7 @@ class TicketType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('valide', HiddenType::class, [
-                'data' => false, // Set the default value to false
-            ])
+            ->add('valide')
             ->add('total', TextType::class, [
                 'required' => false,
                 'disabled' => true,
